@@ -1,50 +1,48 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import OcrScanner from '../components/ocr/OcrScanner'
-import TransactionForm from '../components/transactions/TransactionForm'
 import { useTransactions } from '../hooks/useTransactions'
 
 export default function OcrPage() {
   const navigate = useNavigate()
-  const [prefill, setPrefill] = useState(null)
   const { addTransaction } = useTransactions()
+  const [saving, setSaving] = useState(false)
+  const [saveError, setSaveError] = useState('')
 
-  const handleExtract = ({ amount, label }) => {
-    setPrefill({ amount, label })
-  }
-
-  const handleSave = async (form) => {
-    await addTransaction(form)
-    navigate('/transactions')
+  const handleExtract = async (transactions) => {
+    setSaveError('')
+    setSaving(true)
+    try {
+      for (const tx of transactions) {
+        await addTransaction(tx)
+      }
+      navigate('/transactions')
+    } catch (err) {
+      setSaveError('Erreur lors de la création : ' + err.message)
+    }
+    setSaving(false)
   }
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="space-y-6 max-w-4xl">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Scanner un reçu (OCR)</h1>
         <p className="text-gray-500 text-sm mt-1">
-          Importez une photo de reçu pour extraire automatiquement le montant et le libellé.
+          Importez une photo de reçu, cochez les lignes qui vous intéressent, assignez une catégorie et créez les transactions en un clic.
         </p>
       </div>
 
-      <OcrScanner onExtract={handleExtract} />
-
-      {prefill && (
-        <div className="card">
-          <h2 className="font-semibold text-gray-800 mb-4">Créer la transaction</h2>
-          <TransactionForm
-            onSave={handleSave}
-            onCancel={() => setPrefill(null)}
-            initial={{
-              type: 'expense',
-              amount: prefill.amount || '',
-              label: prefill.label || '',
-              category: '',
-              date: new Date().toISOString().split('T')[0],
-            }}
-          />
-        </div>
+      {saveError && (
+        <p className="text-sm text-red-600 bg-red-50 px-4 py-3 rounded-lg">{saveError}</p>
       )}
+
+      {saving && (
+        <p className="text-sm text-primary-600 bg-primary-50 px-4 py-3 rounded-lg">
+          Enregistrement en cours...
+        </p>
+      )}
+
+      <OcrScanner onExtract={handleExtract} />
     </div>
   )
 }

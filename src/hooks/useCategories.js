@@ -7,17 +7,20 @@ export function useCategories(type = null) {
   const { user } = useAuth()
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   const fetch = useCallback(async () => {
     if (!user) return
+    setError('')
     let query = supabase
       .from('categories')
       .select('*')
       .eq('user_id', user.id)
       .order('name')
     if (type) query = query.eq('type', type)
-    const { data } = await query
-    setCategories(data ?? [])
+    const { data, error: err } = await query
+    if (err) setError(err.message)
+    else setCategories(data ?? [])
     setLoading(false)
   }, [user, type])
 
@@ -62,5 +65,5 @@ export function useCategories(type = null) {
     await fetch()
   }
 
-  return { categories, loading, addCategory, updateCategory, deleteCategory, seedDefaults, refetch: fetch }
+  return { categories, loading, error, addCategory, updateCategory, deleteCategory, seedDefaults, refetch: fetch }
 }

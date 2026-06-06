@@ -1,13 +1,22 @@
 import { useState } from 'react'
 import { useCategories } from '../hooks/useCategories'
 
+function schemaHint(msg) {
+  if (msg && msg.toLowerCase().includes('categories') && msg.toLowerCase().includes('schema')) {
+    return 'La table "categories" est introuvable dans Supabase. Exécutez le bloc "categories" dans supabase_schema.sql via votre éditeur SQL Supabase, puis rechargez la page.'
+  }
+  return msg
+}
+
 function CategorySection({ title, type, icon }) {
-  const { categories, loading, addCategory, updateCategory, deleteCategory, seedDefaults } = useCategories(type)
+  const { categories, loading, error: fetchError, addCategory, updateCategory, deleteCategory, seedDefaults } = useCategories(type)
   const [newName, setNewName] = useState('')
   const [editId, setEditId] = useState(null)
   const [editName, setEditName] = useState('')
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
+
+  const displayError = fetchError ? schemaHint(fetchError) : error
 
   const handleAdd = async (e) => {
     e.preventDefault()
@@ -66,8 +75,8 @@ function CategorySection({ title, type, icon }) {
         </button>
       </div>
 
-      {error && (
-        <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>
+      {displayError && (
+        <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{displayError}</p>
       )}
 
       {loading ? (
