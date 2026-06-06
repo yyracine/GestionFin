@@ -18,11 +18,11 @@ export default function AuthPage() {
         </div>
       </div>
 
-      <div className="flex-1 flex items-center justify-center p-8 bg-white">
+      <div className="flex-1 flex items-center justify-center p-8 bg-white dark:bg-gray-900">
         <div className="w-full max-w-md">
           <div className="lg:hidden text-center mb-8">
             <span className="text-4xl">💰</span>
-            <h1 className="text-2xl font-bold text-gray-900">GestionFin</h1>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">GestionFin</h1>
           </div>
           {mode === 'login'
             ? <LoginForm onSwitch={() => setMode('register')} />

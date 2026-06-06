@@ -61,7 +61,7 @@ export default function TransactionForm({ onSave, onCancel, initial = null }) {
           className={`py-2 rounded-lg font-medium border transition-colors ${
             form.type === 'income'
               ? 'bg-income text-white border-income'
-              : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'
+              : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600'
           }`}
         >
           Revenu
@@ -72,7 +72,7 @@ export default function TransactionForm({ onSave, onCancel, initial = null }) {
           className={`py-2 rounded-lg font-medium border transition-colors ${
             form.type === 'expense'
               ? 'bg-expense text-white border-expense'
-              : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'
+              : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600'
           }`}
         >
           Dépense
@@ -81,28 +81,14 @@ export default function TransactionForm({ onSave, onCancel, initial = null }) {
 
       <div>
         <label className="label">Montant (FCFA)</label>
-        <input
-          type="number"
-          step="0.01"
-          min="0.01"
-          required
-          className="input"
-          value={form.amount}
-          onChange={set('amount')}
-          placeholder="0.00"
-        />
+        <input type="number" step="0.01" min="0.01" required className="input"
+          value={form.amount} onChange={set('amount')} placeholder="0.00" />
       </div>
 
       <div>
         <label className="label">Libellé</label>
-        <input
-          type="text"
-          required
-          className="input"
-          value={form.label}
-          onChange={set('label')}
-          placeholder="Description de la transaction"
-        />
+        <input type="text" required className="input" value={form.label}
+          onChange={set('label')} placeholder="Description de la transaction" />
       </div>
 
       <div>
@@ -116,24 +102,18 @@ export default function TransactionForm({ onSave, onCancel, initial = null }) {
             <option key={c.id} value={c.name}>{c.name}</option>
           ))}
           {!catLoading && categories.length === 0 && (
-            <option disabled>Aucune catégorie — ajoutez-en dans Paramètres</option>
+            <option disabled>Aucune catégorie — ajoutez-en dans Catégories</option>
           )}
         </select>
       </div>
 
       <div>
         <label className="label">Date</label>
-        <input
-          type="date"
-          required
-          className="input"
-          value={form.date}
-          onChange={set('date')}
-        />
+        <input type="date" required className="input" value={form.date} onChange={set('date')} />
       </div>
 
       {error && (
-        <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{error}</p>
+        <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-3 py-2 rounded-lg">{error}</p>
       )}
 
       <div className="flex gap-3 pt-2">

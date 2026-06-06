@@ -3,10 +3,12 @@ function StatCard({ label, amount, color, icon }) {
   return (
     <div className={`card border-l-4 ${color}`}>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium text-gray-500">{label}</span>
+        <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{label}</span>
         <span className="text-2xl">{icon}</span>
       </div>
-      <p className="text-2xl font-bold text-gray-900">{formatted} <span className="text-base font-normal text-gray-500">FCFA</span></p>
+      <p className="text-2xl font-bold text-gray-900 dark:text-white">
+        {formatted} <span className="text-base font-normal text-gray-500 dark:text-gray-400">FCFA</span>
+      </p>
     </div>
   )
 }
@@ -16,7 +18,7 @@ export default function BalanceSummary({ stats, loading }) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="card animate-pulse h-24" />
+          <div key={i} className="card animate-pulse h-24 dark:bg-gray-700" />
         ))}
       </div>
     )

@@ -23,8 +23,8 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Tableau de bord</h1>
-          <p className="text-gray-500 text-sm capitalize">{monthLabel}</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Tableau de bord</h1>
+          <p className="text-gray-500 dark:text-gray-400 text-sm capitalize">{monthLabel}</p>
         </div>
         <input
           type="month"

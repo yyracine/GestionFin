@@ -36,17 +36,13 @@ export default function TransactionsPage() {
   }
 
   const handleDelete = async (id) => {
-    if (window.confirm('Supprimer cette transaction ?')) {
-      await deleteTransaction(id)
-    }
+    if (window.confirm('Supprimer cette transaction ?')) await deleteTransaction(id)
   }
-
-  const handleCancelEdit = () => setEditing(null)
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold text-gray-900">Transactions</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Transactions</h1>
         <button className="btn-primary" onClick={() => { setShowForm(s => !s); setEditing(null) }}>
           {showForm ? '✕ Fermer' : '+ Nouvelle transaction'}
         </button>
@@ -54,12 +50,12 @@ export default function TransactionsPage() {
 
       {(showForm || editing) && (
         <div className="card">
-          <h2 className="font-semibold text-gray-800 mb-4">
+          <h2 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">
             {editing ? 'Modifier la transaction' : 'Nouvelle transaction'}
           </h2>
           <TransactionForm
             onSave={handleSave}
-            onCancel={editing ? handleCancelEdit : () => setShowForm(false)}
+            onCancel={editing ? () => setEditing(null) : () => setShowForm(false)}
             initial={editing ? {
               type: editing.type,
               amount: editing.amount,
@@ -72,7 +68,7 @@ export default function TransactionsPage() {
       )}
 
       <div className="card p-0 overflow-hidden">
-        <div className="p-4 border-b border-gray-100 flex flex-wrap gap-3 items-center">
+        <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex flex-wrap gap-3 items-center">
           <input
             type="month"
             className="input w-auto"
@@ -91,7 +87,7 @@ export default function TransactionsPage() {
         </div>
 
         {error && (
-          <p className="text-sm text-red-600 bg-red-50 px-4 py-3">{error}</p>
+          <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-4 py-3">{error}</p>
         )}
 
         <TransactionList

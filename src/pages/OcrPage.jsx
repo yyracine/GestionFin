@@ -26,18 +26,17 @@ export default function OcrPage() {
   return (
     <div className="space-y-6 max-w-4xl">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Scanner un reçu (OCR)</h1>
-        <p className="text-gray-500 text-sm mt-1">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Scanner un reçu (OCR)</h1>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
           Importez une photo de reçu, cochez les lignes qui vous intéressent, assignez une catégorie et créez les transactions en un clic.
         </p>
       </div>
 
       {saveError && (
-        <p className="text-sm text-red-600 bg-red-50 px-4 py-3 rounded-lg">{saveError}</p>
+        <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-lg">{saveError}</p>
       )}
-
       {saving && (
-        <p className="text-sm text-primary-600 bg-primary-50 px-4 py-3 rounded-lg">
+        <p className="text-sm text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 px-4 py-3 rounded-lg">
           Enregistrement en cours...
         </p>
       )}
