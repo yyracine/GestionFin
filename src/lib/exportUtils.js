@@ -96,20 +96,14 @@ export async function downloadExcel(reportData, transactions) {
   writeFile(wb, 'gestionfin.xlsx')
 }
 
-// ── Google Sheets (copie TSV + ouverture sheets.new) ─────────────────────────
+// ── Google Sheets (télécharge CSV + ouvre sheets.new) ────────────────────────
+// Retourne le nom du fichier téléchargé pour que la page affiche les instructions.
 
-export async function exportGoogleSheets(transactions) {
-  const headers = ['Date', 'Type', 'Catégorie', 'Description', 'Montant (FCFA)']
-  const rows = transactions.map(t => [
-    t.date,
-    t.type === 'income' ? 'Revenu' : 'Dépense',
-    t.category ?? '',
-    t.description ?? '',
-    Number(t.amount),
-  ])
-  const tsv = [headers, ...rows].map(r => r.join('\t')).join('\n')
-  await navigator.clipboard.writeText(tsv)
+export function exportGoogleSheets(transactions) {
+  const filename = 'transactions_gestionfin.csv'
+  downloadTransactionsCSV(transactions)
   window.open('https://sheets.new', '_blank', 'noopener,noreferrer')
+  return filename
 }
 
 // ── PDF (rapport tableau) ─────────────────────────────────────────────────────

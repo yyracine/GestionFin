@@ -38,19 +38,15 @@ export default function ReportPage() {
   const { data, loading } = useReportData()
   const { transactions, loading: txLoading } = useTransactions()
   const [busy, setBusy] = useState(null)
-  const [toast, setToast] = useState(null)
+  const [sheetsModal, setSheetsModal] = useState(false)
 
   const run = async (key, fn) => {
     setBusy(key)
     try {
-      await fn()
-      if (key === 'sheets') {
-        setToast('Données copiées ! Collez avec Ctrl+V dans la nouvelle feuille Google Sheets.')
-        setTimeout(() => setToast(null), 6000)
-      }
+      const result = await fn()
+      if (key === 'sheets') setSheetsModal(true)
     } catch (e) {
-      setToast('Erreur lors de l\'export : ' + e.message)
-      setTimeout(() => setToast(null), 4000)
+      alert('Erreur lors de l\'export : ' + e.message)
     } finally {
       setBusy(null)
     }
@@ -183,17 +179,66 @@ export default function ReportPage() {
 
         <p className="mt-3 text-xs text-gray-400 dark:text-white/25">
           Excel inclut deux feuilles : le rapport agrégé et l'ensemble des transactions brutes.
-          Google Sheets copie les données dans le presse-papiers et ouvre une nouvelle feuille.
         </p>
       </div>
 
-      {/* Toast */}
-      {toast && (
+      {/* Modal Google Sheets */}
+      {sheetsModal && (
         <div
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl shadow-xl
-                     bg-navy dark:bg-navy-light text-white text-sm font-medium max-w-sm text-center"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+          onClick={() => setSheetsModal(false)}
         >
-          {toast}
+          <div
+            className="card max-w-md w-full mx-4 space-y-4"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <span className="text-3xl">🟢</span>
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white">Import dans Google Sheets</h3>
+                  <p className="text-xs text-gray-500 dark:text-white/40 mt-0.5">
+                    Votre fichier CSV a été téléchargé et une nouvelle feuille s'est ouverte.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setSheetsModal(false)}
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-white/60 text-xl leading-none"
+              >
+                ×
+              </button>
+            </div>
+
+            <ol className="space-y-2 text-sm text-gray-700 dark:text-white/70">
+              <li className="flex gap-3">
+                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gold/20 text-gold text-xs font-bold flex items-center justify-center">1</span>
+                Dans Google Sheets, cliquez sur <strong className="mx-1 text-gray-900 dark:text-white">Fichier</strong>
+              </li>
+              <li className="flex gap-3">
+                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gold/20 text-gold text-xs font-bold flex items-center justify-center">2</span>
+                Cliquez sur <strong className="mx-1 text-gray-900 dark:text-white">Importer</strong>
+              </li>
+              <li className="flex gap-3">
+                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gold/20 text-gold text-xs font-bold flex items-center justify-center">3</span>
+                Onglet <strong className="mx-1 text-gray-900 dark:text-white">Importer</strong> → sélectionnez le fichier
+                <code className="ml-1 px-1.5 py-0.5 rounded bg-gray-100 dark:bg-navy-mid text-xs font-mono text-gray-700 dark:text-white/70">
+                  transactions_gestionfin.csv
+                </code>
+              </li>
+              <li className="flex gap-3">
+                <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gold/20 text-gold text-xs font-bold flex items-center justify-center">4</span>
+                Choisissez <strong className="mx-1 text-gray-900 dark:text-white">Remplacer la feuille</strong> puis <strong className="text-gray-900 dark:text-white">Importer les données</strong>
+              </li>
+            </ol>
+
+            <button
+              onClick={() => setSheetsModal(false)}
+              className="btn-primary w-full"
+            >
+              Compris
+            </button>
+          </div>
         </div>
       )}
     </div>
