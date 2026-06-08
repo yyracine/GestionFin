@@ -86,6 +86,7 @@ export default function LoginForm({ onSwitch }) {
             id="email"
             type="email"
             required
+            autoComplete="off"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="jean@exemple.com"
@@ -98,6 +99,7 @@ export default function LoginForm({ onSwitch }) {
             id="password"
             type={showPwd ? 'text' : 'password'}
             required
+            autoComplete="new-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
