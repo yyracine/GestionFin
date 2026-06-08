@@ -96,16 +96,6 @@ export async function downloadExcel(reportData, transactions) {
   writeFile(wb, 'gestionfin.xlsx')
 }
 
-// ── Google Sheets (télécharge CSV + ouvre sheets.new) ────────────────────────
-// Retourne le nom du fichier téléchargé pour que la page affiche les instructions.
-
-export function exportGoogleSheets(transactions) {
-  const filename = 'transactions_gestionfin.csv'
-  downloadTransactionsCSV(transactions)
-  window.open('https://sheets.new', '_blank', 'noopener,noreferrer')
-  return filename
-}
-
 // ── PDF (rapport tableau) ─────────────────────────────────────────────────────
 
 export async function downloadReportPDF(data) {
