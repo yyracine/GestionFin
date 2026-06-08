@@ -7,6 +7,7 @@ import DashboardPage from './pages/DashboardPage'
 import TransactionsPage from './pages/TransactionsPage'
 import OcrPage from './pages/OcrPage'
 import CategoriesPage from './pages/CategoriesPage'
+import ReportPage from './pages/ReportPage'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -35,6 +36,7 @@ function AppLayout() {
           <Route path="/transactions" element={<TransactionsPage />} />
           <Route path="/ocr" element={<OcrPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/report" element={<ReportPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
